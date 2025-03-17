@@ -1,0 +1,27 @@
+model:
+  base_model: "gpt2" # Starting with GPT-2 for initial experiments
+  max_length: 512
+  temperature: 0.7
+  top_p: 0.9
+
+training:
+  batch_size: 4
+  learning_rate: 2e-5
+  num_epochs: 3
+  gradient_accumulation_steps: 4
+  warmup_steps: 100
+  weight_decay: 0.01
+
+peft:
+  method: "lora"
+  r: 8
+  lora_alpha: 32
+  lora_dropout: 0.1
+  target_modules: ["q_proj", "v_proj"]
+
+data:
+  train_split: 0.8
+  val_split: 0.1
+  test_split: 0.1
+  chunk_size: 512
+  overlap: 50
