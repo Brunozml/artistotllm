@@ -1,0 +1,58 @@
+from sentence_transformers import SentenceTransformer
+import numpy as np
+from typing import Tuple
+
+def load_model():
+    """Load the Sentence-BERT model"""
+    return SentenceTransformer('all-MiniLM-L6-v2')
+
+def transformer_similarity(text1: str, text2: str, model=None) -> Tuple[float, dict]:
+    """
+    Compare two texts using Sentence Transformers.
+    Returns a similarity score and the sentence embeddings.
+    """
+    if model is None:
+        model = load_model()
+    
+    # Get embeddings
+    embedding1 = model.encode([text1])[0]
+    embedding2 = model.encode([text2])[0]
+    
+    # Calculate cosine similarity
+    similarity = np.dot(embedding1, embedding2) / (np.linalg.norm(embedding1) * np.linalg.norm(embedding2))
+    
+    return similarity, {
+        "embedding1_sample": embedding1[:5].tolist(),  # Show first 5 dimensions
+        "embedding2_sample": embedding2[:5].tolist()
+    }
+
+def read_file(filepath):
+    """Read text from a file and return its contents"""
+    with open(filepath, 'r') as f:
+        return f.read()
+
+if __name__ == "__main__":
+    # Example texts
+    # text1 = "The cat quickly jumped over the lazy dog."
+    # text2 = "A dog slowly walked under the tired cat."
+    
+    data_path = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/'
+    file1 = 'what_to_do.txt'
+    file2 = 'how_to_think.txt'
+
+    text1 = read_file(data_path + file1)
+    text2 = read_file(data_path + file2)
+    
+    # Load model once
+    model = load_model()
+    
+    # Compare texts
+    similarity_score, embeddings = transformer_similarity(text1, text2, model)
+    
+    # Print results
+    print(f"Text 1: {file1}")
+    print(f"Text 2: {file2}")
+    print(f"\nTransformer Similarity score: {similarity_score:.2f}")
+    # print("\nSample of embeddings (first 5 dimensions):")
+    # print(f"Text 1: {embeddings['embedding1_sample']}")
+    # print(f"Text 2: {embeddings['embedding2_sample']}")

@@ -22,8 +22,8 @@ def compare_texts(text1, text2):
     return similarity, common_words
 
 # Read the files
-file1 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/founder_mode.txt'
-file2 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/what_to_do_march2025.txt'
+file1 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/hypewrite_what_to_do.txt'
+file2 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/gpt_what_to_do.txt'
 
 text1 = read_file(file1)
 text2 = read_file(file2)
