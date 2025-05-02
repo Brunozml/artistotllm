@@ -1,3 +1,11 @@
+"""
+🤖 Transformer Text Telepathy! 🧠
+
+Behold the power of neural networks! This module uses state-of-the-art transformer models
+to read between the lines and understand text like a mind reader. It transforms your words
+into high-dimensional vectors and measures their cosmic similarity in the neural space.
+"""
+
 from sentence_transformers import SentenceTransformer
 import numpy as np
 from typing import Tuple

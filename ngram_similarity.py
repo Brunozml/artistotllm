@@ -1,3 +1,14 @@
+"""
+🎯 N-gram Navigator: Your Text's Best Friend! 🎯
+
+Welcome to the N-gram similarity analyzer, where we slice and dice text into delicious
+bite-sized chunks (n-grams) and compare them using the mighty TF-IDF powers! It's like
+a word sandwich detector that tells you how similar two texts are based on their
+ingredient combinations.
+
+Pro tip: Works best with a cup of coffee and a sense of humor! ☕️🔍
+"""
+
 from collections import Counter
 from typing import List, Tuple, Dict
 import numpy as np

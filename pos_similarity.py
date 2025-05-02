@@ -1,3 +1,14 @@
+"""
+🎭 Parts of Speech Party! 🎭
+
+This module is your friendly neighborhood grammar detective! It analyzes text by looking at
+Parts of Speech (POS) patterns - you know, those sneaky nouns, verbs, adjectives, and their friends.
+Think of it as a linguistic DJ that creates a "word category remix" of your text and compares
+how similar two texts are based on their grammatical vibes.
+
+Warning: May cause unexpected appreciation for grammar rules! 📚✨
+"""
+
 import nltk
 from nltk import pos_tag, word_tokenize
 from nltk.corpus import stopwords
