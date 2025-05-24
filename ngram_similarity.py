@@ -14,6 +14,9 @@ from typing import List, Tuple, Dict
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+# TODO: remove stop words using nltk 
+
+
 def get_ngrams(text: str, n: int) -> List[str]:
     """Generate n-grams from text"""
     words = text.lower().split()
@@ -66,12 +69,11 @@ if __name__ == "__main__":
     # text1 = "The cat quickly jumped over the lazy dog."
     # text2 = "A dog slowly walked under the tired cat."
     # Read the files
-    data_path = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/'
-    file2 = 'gpt_what_to_do.txt'
-    file1 = 'hypewrite_what_to_do.txt'
+    file1 = 'data/raw/pg_essays/what_to_do.txt'
+    file2 = 'data/raw/pg_llama/what_to_do.txt'
 
-    text1 = read_file(data_path + file1)
-    text2 = read_file(data_path + file2)
+    text1 = read_file(file1)
+    text2 = read_file(file2)
     # Compare texts
     similarity_score, gram_info = ngram_similarity(text1, text2)
     

@@ -40,16 +40,13 @@ def read_file(filepath):
         return f.read()
 
 if __name__ == "__main__":
-    # Example texts
-    # text1 = "The cat quickly jumped over the lazy dog."
-    # text2 = "A dog slowly walked under the tired cat."
-    
-    data_path = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/'
-    file1 = 'what_to_do.txt'
-    file2 = 'how_to_think.txt'
 
-    text1 = read_file(data_path + file1)
-    text2 = read_file(data_path + file2)
+    # Read the files
+    file1 = 'data/raw/pg_essays/what_to_do.txt'	
+    file2 = 'data/raw/pg_llama/what_to_do.txt'
+
+    text1 = read_file(file1)
+    text2 = read_file(file2)
     
     # Load model once
     model = load_model()

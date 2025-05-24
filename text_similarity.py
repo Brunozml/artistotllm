@@ -13,14 +13,17 @@ for tasks such as plagiarism detection, document comparison, or content analysis
 
 
 # Read the files
-file1 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/hypewrite_what_to_do.txt'
-file2 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/gpt_what_to_do.txt'
+file1 = 'data/raw/pg_essays/what_to_do.txt'	
+file2 = 'data/raw/pg_llama/what_to_do.txt'
 
 def read_file(filepath):
     """Read text from a file and return its contents"""
     with open(filepath, 'r') as f:
         return f.read()
 
+# override text manually
+text1= ''
+text2= ''
 def compare_texts(text1, text2):
     """
     Compare similarity between two texts using a simple word overlap approach.
