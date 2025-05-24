@@ -1,3 +1,7 @@
+# Read the files
+file1 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/hypewrite_what_to_do.txt'
+file2 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/gpt_what_to_do.txt'
+
 def read_file(filepath):
     """Read text from a file and return its contents"""
     with open(filepath, 'r') as f:
@@ -20,10 +24,6 @@ def compare_texts(text1, text2):
     similarity = len(common_words) / max(len(words1), len(words2))
     
     return similarity, common_words
-
-# Read the files
-file1 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/hypewrite_what_to_do.txt'
-file2 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/gpt_what_to_do.txt'
 
 text1 = read_file(file1)
 text2 = read_file(file2)
