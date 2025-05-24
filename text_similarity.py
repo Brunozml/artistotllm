@@ -1,3 +1,17 @@
+""""
+text_similarity.py
+
+This script provides a simple method to compare the similarity between two text files.
+It reads the contents of two files, processes the text to extract unique words, and calculates
+a similarity score based on the overlap of these words. The similarity score ranges from 0 to 1,
+where 1 indicates identical sets of words and 0 indicates no shared words. This approach is useful
+for quickly assessing how much two texts have in common at the word level, which can be helpful
+for tasks such as plagiarism detection, document comparison, or content analysis.
+
+
+"""
+
+
 # Read the files
 file1 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/hypewrite_what_to_do.txt'
 file2 = '/Users/brunozorrilla/Documents/GitHub/artistotllm/data/raw/gpt_what_to_do.txt'
