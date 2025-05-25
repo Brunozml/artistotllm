@@ -1,3 +1,8 @@
+"""
+this script is not currently being used. its objective
+is to potentially fine tune a model to an author's style.
+"""
+
 import os
 import json
 import torch
