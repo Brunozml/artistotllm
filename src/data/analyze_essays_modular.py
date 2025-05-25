@@ -24,6 +24,7 @@ from evaluation.pos_similarity import pos_similarity, read_file
 from evaluation.text_similarity import text_similarity
 from evaluation.sentence_length import sentence_length_similarity
 from evaluation.punctuation_similarity import punctuation_similarity
+from evaluation.transformer_similarity import transformer_similarity, load_model
 from utils.text_splitter import split_text
 
 # Set file paths
@@ -127,6 +128,9 @@ class EssayAnalyzer:
         
         # Register default metrics
         self._register_default_metrics()
+        
+        # Load transformer model once for all essay comparisons
+        self.transformer_model = load_model()
     
     def _register_default_metrics(self):
         """Register the default set of metrics"""
@@ -153,7 +157,14 @@ class EssayAnalyzer:
             punctuation_similarity,
             description="Measures punctuation pattern similarity between essays"
         )
-    
+        
+        # Add transformer similarity metric
+        self.metric_processor.register_metric(
+            "transformer_similarity",
+            lambda text1, text2: transformer_similarity(text1, text2, self.transformer_model),
+            description="Measures semantic similarity using transformer embeddings"
+        )
+
     def register_new_metric(self, name, metric_function, output_columns=None, description=""):
         """
         Register a new metric to use in analysis
