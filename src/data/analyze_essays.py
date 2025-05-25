@@ -21,6 +21,7 @@ import argparse
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from evaluation.pos_similarity import pos_similarity, read_file
 from evaluation.text_similarity import text_similarity
+from evaluation.sentence_length import sentence_length_similarity
 from utils.text_splitter import split_text
 
 # Set file paths
@@ -87,14 +88,16 @@ def analyze_essays(output_format='csv'):
             original_length = len(original_text.split())
             generated_length = len(generated_text.split())
             
-            # Calculate similarities
+            # Calculate text similarity metrics
             # 1. First 500 words of original vs generated
             text_sim_llm, _ = text_similarity(first_500, generated_text)
             pos_sim_llm, _ = pos_similarity(first_500, generated_text)
+            sent_sim_llm, sent_stats_llm = sentence_length_similarity(first_500, generated_text)
             
             # 2. First 500 words vs second 500 words of original
             text_sim_orig, _ = text_similarity(first_500, second_500)
             pos_sim_orig, _ = pos_similarity(first_500, second_500)
+            sent_sim_orig, sent_stats_orig = sentence_length_similarity(first_500, second_500)
             
             # Extract author (using the title as placeholder)
             author = title.replace("_", " ").title()
@@ -118,8 +121,13 @@ def analyze_essays(output_format='csv'):
                 "text_similarity_ORIGINAL": round(text_sim_orig, 4),
                 "pos_similarity_LLM": round(pos_sim_llm, 4),
                 "pos_similarity_ORIGINAL": round(pos_sim_orig, 4),
+                "sentence_similarity_LLM": round(sent_sim_llm, 4),
+                "sentence_similarity_ORIGINAL": round(sent_sim_orig, 4),
+                "avg_sentence_length_ORIGINAL": round(sent_stats_orig["text1_stats"]["avg_sentence_length"], 2),
+                "avg_sentence_length_LLM": round(sent_stats_llm["text2_stats"]["avg_sentence_length"], 2),
+                "sentence_length_diff": round(sent_stats_llm["difference"], 2),
                 "date": datetime.now().strftime("%d-%m-%Y"),
-                "comments": ""# Placeholder for any additional comments
+                "comments": f"Comparison of {title}"
             }
             
             # Add row to results
@@ -130,6 +138,9 @@ def analyze_essays(output_format='csv'):
             print(f"  - Text similarity (Original): {text_sim_orig:.4f}")
             print(f"  - POS similarity (LLM): {pos_sim_llm:.4f}")
             print(f"  - POS similarity (Original): {pos_sim_orig:.4f}")
+            print(f"  - Sentence Length similarity (LLM): {sent_sim_llm:.4f}")
+            print(f"  - Avg sentence length (Original): {sent_stats_orig['text1_stats']['avg_sentence_length']:.2f}")
+            print(f"  - Avg sentence length (LLM): {sent_stats_llm['text2_stats']['avg_sentence_length']:.2f}")
             
         except Exception as e:
             print(f"Error processing essay {title}: {str(e)}")
@@ -183,6 +194,34 @@ def analyze_essays(output_format='csv'):
                     df['pos_similarity_ORIGINAL'].std(),
                     df['pos_similarity_ORIGINAL'].min(),
                     df['pos_similarity_ORIGINAL'].max()
+                ],
+                'Sent Len Sim (LLM)': [
+                    df['sentence_similarity_LLM'].mean(),
+                    df['sentence_similarity_LLM'].median(),
+                    df['sentence_similarity_LLM'].std(),
+                    df['sentence_similarity_LLM'].min(),
+                    df['sentence_similarity_LLM'].max()
+                ],
+                'Sent Len Sim (Original)': [
+                    df['sentence_similarity_ORIGINAL'].mean(),
+                    df['sentence_similarity_ORIGINAL'].median(),
+                    df['sentence_similarity_ORIGINAL'].std(),
+                    df['sentence_similarity_ORIGINAL'].min(),
+                    df['sentence_similarity_ORIGINAL'].max()
+                ],
+                'Avg Sent Length (Original)': [
+                    df['avg_sentence_length_ORIGINAL'].mean(),
+                    df['avg_sentence_length_ORIGINAL'].median(),
+                    df['avg_sentence_length_ORIGINAL'].std(),
+                    df['avg_sentence_length_ORIGINAL'].min(),
+                    df['avg_sentence_length_ORIGINAL'].max()
+                ],
+                'Avg Sent Length (LLM)': [
+                    df['avg_sentence_length_LLM'].mean(),
+                    df['avg_sentence_length_LLM'].median(),
+                    df['avg_sentence_length_LLM'].std(),
+                    df['avg_sentence_length_LLM'].min(),
+                    df['avg_sentence_length_LLM'].max()
                 ]
             })
             
@@ -194,7 +233,7 @@ def analyze_essays(output_format='csv'):
             
             # Add number format
             number_format = workbook.add_format({'num_format': '0.0000'})
-            for col in range(1, 5):
+            for col in range(1, 9):
                 worksheet.set_column(col, col, 12, number_format)
             
         print(f"\nExcel results saved to {output_excel}")
@@ -203,10 +242,16 @@ def analyze_essays(output_format='csv'):
     if results:
         df = pd.DataFrame(results)
         print("\nSummary Statistics:")
+        
         print("\nText Similarity Statistics:")
         print(df[["text_similarity_LLM", "text_similarity_ORIGINAL"]].describe())
+        
         print("\nPOS Similarity Statistics:")
         print(df[["pos_similarity_LLM", "pos_similarity_ORIGINAL"]].describe())
+        
+        print("\nSentence Length Statistics:")
+        print(df[["sentence_similarity_LLM", "sentence_similarity_ORIGINAL", 
+                 "avg_sentence_length_ORIGINAL", "avg_sentence_length_LLM"]].describe())
 
 if __name__ == "__main__":
     # Parse command line arguments
