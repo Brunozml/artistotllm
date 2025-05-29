@@ -8,7 +8,7 @@ A research framework for analyzing how well Large Language Models (LLMs) can imi
 
 ## Project Overview
 
-As LLMs advance, they become increasingly capable of producing text that resembles human writing. This project investigates how accurately these models can replicate the unique stylistic features of individual authors, including:
+This is an Academic assignment. As LLMs advance, they become increasingly capable of producing text that resembles human writing. This project investigates how accurately these models can replicate the unique stylistic features of individual authors, including:
 
 - Vocabulary choices
 - Sentence structure
