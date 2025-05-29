@@ -95,13 +95,16 @@ for author in authors:
         if filename.endswith('.txt'):
             file_path = os.path.join(folder_path, filename)
             # Try different encodings with error handling
-            encodings_to_try = ['utf-16le', 'utf-16', 'utf-8', 'iso-8859-1']
+            encodings_to_try = ['utf-8', 'latin-1', 'iso-8859-1', 'ascii', 'utf-16']
+            text = ""
             for encoding in encodings_to_try:
                 try:
                     with open(file_path, 'r', encoding=encoding) as f:
                         text = f.read()
+                        print(f"Successfully decoded {filename} using {encoding}")
                         break  # If successful, break out of the encoding loop
-                except UnicodeDecodeError:
+                except UnicodeDecodeError as e:
+                    print(f"Failed to decode {filename} with {encoding}: {str(e)}")
                     if encoding == encodings_to_try[-1]:  # If this was the last encoding to try
                         print(f"Failed to decode {filename} with all attempted encodings")
                         text = ""  # Set empty text or handle the error as needed

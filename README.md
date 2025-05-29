@@ -1,14 +1,36 @@
 # ArtistotLLM
 
-A framework for fine-tuning language models to capture the writing style and reasoning patterns of historical philosophers, starting with [Aristotle](https://www.gutenberg.org/ebooks/author/2747) and [Sir Arthur Conan Doyle](https://www.gutenberg.org/ebooks/author/69).
+A research framework for analyzing how well Large Language Models (LLMs) can imitate the writing style of specific authors. This project focuses on measuring the similarity between LLM-generated continuations of texts and the actual continuations by the original authors.
+
+## Research Question
+
+**To what extent can LLMs imitate the stylistic writing of an author?**
+
+## Project Overview
+
+As LLMs advance, they become increasingly capable of producing text that resembles human writing. This project investigates how accurately these models can replicate the unique stylistic features of individual authors, including:
+
+- Vocabulary choices
+- Sentence structure
+- Use of punctuation
+- Tone and rhetorical strategies
+
+We analyze texts from four selected authors (Twain, Graham, Krugman, and Hansen) and design comprehensive metrics to measure the similarity between LLM-generated continuations and the authors' actual writing styles.
 
 ## Project Structure
 
-- `data/`: Contains raw and processed text data
+- `data/`: Contains raw author texts and processed datasets
+  - `raw/`: Original texts from different authors
+  - `processed/`: Prepared datasets for analysis
 - `src/`: Source code organized by functionality
-- `configs/`: Configuration files for models and training
-- `notebooks/`: Jupyter notebooks for exploration
-- `tests/`: Unit tests
+  - `data/`: Text processing and analysis scripts
+  - `evaluation/`: Metrics for measuring text similarity
+  - `utils/`: Helper functions
+- `configs/`: Configuration files for models and experiments
+- `notebooks/`: Jupyter notebooks for data exploration and visualization
+- `results/`: Analysis outputs and visualizations
+  - `essay_analysis/`: Comparisons of essays
+  - `metrics_analysis/`: Detailed metrics results
 
 ## Setup
 
@@ -27,54 +49,69 @@ pip install -r requirements.txt
 
 ## Usage
 
-1. Place your raw text data in `data/raw/`
-2. Configure model and training parameters in `configs/`
-3. Run the training pipeline:
+1. Place author text data in `data/raw/{Author}/`
+2. Run the LLM text generation script:
 
 ```bash
-python src/models/training.py
+python src/data/llm_stylistic_imitation.py
 ```
+
+3. Analyze the results with various metrics:
+
+```bash
+python src/data/analyze_all_metrics.py
+```
+
+## Text Similarity Metrics
+
+This project implements multiple metrics to comprehensively evaluate how well LLM-generated text imitates an author's style:
+
+1. **Stopwords Analysis**: Distribution and similarity of stopwords
+2. **Punctuation Analysis**: Patterns of punctuation usage
+3. **Type-Token Ratio (TTR)**: Lexical diversity metrics (TTR, MATTR, MTLD)
+4. **Sentence Transformers**: Semantic similarity using embeddings
+5. **Part-of-Speech (POS)**: Distribution of POS tags
+6. **Sentence Length**: Analysis of sentence structure
 
 ## Development
 
 This project follows a modular architecture where each component is responsible for a specific task:
 
-- Data processing: Text cleaning, tokenization
-- Model management: Model setup, training loops
-- Evaluation: Metrics and analysis tools
+- **Data processing**: Text cleaning, tokenization, and prompt generation
+- **Metric implementation**: Various text similarity measurements
+- **Evaluation**: Comparative analysis across different authors and texts
 
-## Sir Arthur Conan Doyle 
+## Authors Analyzed
 
-Sir Arthur Conan Doyle (1859 - 1930) wrote a significant number of books across various genres. His bibliography includes:
+This project analyzes texts from four distinct authors with recognizable writing styles:
 
-- **Novels:** 22 novels, including those featuring Sherlock Holmes and other standalone works like "The Lost World" and "The White Company"[^5][^7].
-- **Short Story Collections:** 16 collections, many of which are part of the Sherlock Holmes series[^5].
-- **Plays:** 14 plays[^5].
-- **Spiritualist and Paranormal Books:** 13 books, reflecting his interest in spiritualism[^5].
-- **Poems:** 4 collections of poetry[^5].
+1. **Mark Twain**: American writer known for his witty, satirical style and use of regional dialects
+2. **Paul Graham**: Programmer and essayist with a clear, direct style focused on technology and startups
+3. **Paul Krugman**: Economist and columnist with a analytical approach to economic topics
+4. **Robin Hansen**: Academic with a unique writing style addressing future technology and society
 
-In total, Doyle published over 200 stories and articles throughout his career[^5]. His most famous works remain the Sherlock Holmes stories, which include four novels and 58 short stories[^1][^8].
+## Research Methodology
 
-<div style="text-align: center">⁂</div>
+Our approach involves:
 
-[^1]: https://en.wikipedia.org/wiki/Arthur_Conan_Doyle
+1. **Corpus Collection**: Gathering text samples from each author
+2. **Text Segmentation**: Splitting texts into training portions (~500 words) and test portions
+3. **LLM Generation**: Prompting an LLM (Qwen3-4B) to continue the training portion
+4. **Metric Design**: Creating comprehensive metrics for stylistic comparison
+5. **Comparative Analysis**: Measuring how well the LLM-generated text matches the author's actual continuation
 
-[^2]: https://www.arthur-conan-doyle.com/index.php/The_62_Sherlock_Holmes_stories_written_by_Arthur_Conan_Doyle
+## Results
 
-[^3]: https://www.arthur-conan-doyle.com/index.php/Sir_Arthur_Conan_Doyle:Complete_Works
+The results directory contains CSV and Excel files with detailed metrics comparing original and LLM-generated texts. Visualizations and analyses can be found in the notebooks directory.
 
-[^4]: https://www.fantasticfiction.com/d/sir-arthur-conan-doyle/
+## Motivation
 
-[^5]: https://www.sherlockian.net/investigating/acdbibliography/
+This research helps us understand:
 
-[^6]: https://en.wikipedia.org/wiki/Arthur_Conan_Doyle_bibliography
-
-[^7]: https://arthurconandoyle.co.uk/author
-
-[^8]: https://www.britannica.com/biography/Arthur-Conan-Doyle
-
-[^9]: https://en.wikipedia.org/wiki/Arthur_Conan_Doyle
-
+- Which aspects of writing style LLMs can effectively imitate
+- Where they still struggle to capture an author's unique voice
+- How to better detect AI-generated content attempting to mimic human authors
+- The evolution of stylistic imitation capabilities in language models
 
 ## License
 
