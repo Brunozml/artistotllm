@@ -70,6 +70,7 @@ This project implements multiple metrics to comprehensively evaluate how well LL
 2. **Punctuation Analysis**: Patterns of punctuation usage
 3. **Type-Token Ratio (TTR)**: Lexical diversity metrics (TTR, MATTR, MTLD)
 4. **Sentence Transformers**: Semantic similarity using embeddings
+5. **TF-IDF N-grams**: Weighted distribution comparison of uni-grams, bi-grams, and tri-grams
 5. **Part-of-Speech (POS)**: Distribution of POS tags
 6. **Sentence Length**: Analysis of sentence structure
 
